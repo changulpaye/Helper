@@ -1,9 +1,18 @@
 package com.parm.helper.service;
 
 import com.parm.helper.model.ApiResponse;
+import com.parm.helper.model.Output;
+import com.parm.helper.model.ProductResponse;
+import com.parm.helper.model.Response;
 import com.parm.helper.model.SignupResponse;
+
 import java.util.List;
+
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
+import retrofit2.http.Headers;
+import retrofit2.http.POST;
 import rx.Observable;
 
 /**
@@ -13,6 +22,7 @@ public interface ApiClient {
 
     /**
      * TODO Write info about method
+     *
      * @return
      */
     @GET("/feeds/login.json")
@@ -20,4 +30,15 @@ public interface ApiClient {
 
     @GET("/feeds/signup.json")
     Observable<SignupResponse> signUpUser();
+
+    @Headers("userId:B1tI-l_tb")
+    @GET("/challenge/input")
+    Observable<List<ProductResponse>> getProducts();
+
+
+    @Headers("userId:B1tI-l_tb")
+    @POST("/challenge/output")
+    Observable<Response> setProductCounts( @Body Output output);
+
+
 }

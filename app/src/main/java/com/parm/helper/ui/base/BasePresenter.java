@@ -62,4 +62,6 @@ public abstract class BasePresenter implements Presenter {
                 .subscribe(observer);
         configureSubscription().add(subscription);
     }
+
+
 }
