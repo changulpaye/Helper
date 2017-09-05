@@ -1,18 +1,17 @@
 package com.parm.helper.ui.product;
 
 import com.parm.helper.model.Output;
+import com.parm.helper.model.ProductCount;
 import com.parm.helper.model.ProductResponse;
 import com.parm.helper.model.Response;
 import com.parm.helper.ui.base.BasePresenter;
-import com.parm.helper.ui.login.LoginPresenter;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
+import java.util.Map;
 
 import rx.Observer;
 
@@ -54,14 +53,32 @@ public class ProductPresenter extends BasePresenter {
         public void onNext(List<ProductResponse> productResponses) {
 
             if (productResponses != null && productResponses.size() != 0) {
-               // sendAssignmentOneResult(productResponses);
-
-                sendAssignmentTwoResult(productResponses);
+                // sendAssignmentOneResult(productResponses);
+                //sendAssignmentTwoResult(productResponses);
+                sendAssignmentThreeResult(productResponses);
             }
         }
     };
 
-    Observer<Response> countObserver = new Observer<Response>() {
+    private void sendAssignmentThreeResult(List<ProductResponse> productResponses) {
+        List<ProductResponse> activeProducts = getActiveProducts(productResponses);
+        Map<String, Integer> map = new HashMap<>();
+        for (ProductResponse response: activeProducts) {
+            String  key = response.getCategory();
+            if(map.containsKey(key)) {
+                map.put(key, map.get(key) + 1);
+            } else {
+                map.put(key, 1);
+            }
+        }
+
+        ProductCount productCount = new ProductCount();
+        productCount.setCategoryCount(map);
+        unSubscribeAll();
+        subscribe(view.sendCategoryCount(productCount), countObserver);
+    }
+
+    private Observer<Response> countObserver = new Observer<Response>() {
         @Override
         public void onCompleted() {
 
@@ -90,46 +107,38 @@ public class ProductPresenter extends BasePresenter {
     private void sendAssignmentTwoResult(List<ProductResponse> productResponses) {
 
         Output output = new Output();
-        output.setCount(getActiveProductCount(productResponses));
+        output.setCount(getActiveProducts(productResponses).size());
         unSubscribeAll();
         subscribe(view.setCount(output), countObserver);
 
     }
 
 
-    private int getActiveProductCount(List<ProductResponse> productResponses) {
+    private List<ProductResponse> getActiveProducts(List<ProductResponse> productResponses) {
 
-        int counter = 0;
         Date currentDate = getCurrentDate();
+        List<ProductResponse> tempProducts = new ArrayList<>();
         for (ProductResponse productResponse : productResponses) {
-
 
             Date startDate = productResponse.getStartDate();
             Date endDate = productResponse.getEndDate();
 
             if (startDate.compareTo(currentDate) >= 0) {
                 if (endDate == null || endDate.compareTo(currentDate) <= 0) {
-                    counter++;
+                    tempProducts.add(productResponse);
                 }
             }
         }
-        return counter;
+        return tempProducts;
     }
 
     private Date convertDate(String startDate) {
-        return  new Date();
+        return new Date();
     }
 
     private Date getCurrentDate() {
-
         Calendar calendar = Calendar.getInstance();
         return calendar.getTime();
-//        System.out.println("Current time => " + calendar.getTime());
-//        SimpleDateFormat df = new SimpleDateFormat("yyyy-dd-MMM", Locale.ENGLISH);
-//
-//
-//        String formattedDate = df.format(calendar.getTime());
-
     }
 
 

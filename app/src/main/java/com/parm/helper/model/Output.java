@@ -9,6 +9,7 @@ public class Output {
     @Expose
     private int count;
 
+
     public int getCount() {
         return count;
     }
@@ -16,5 +17,6 @@ public class Output {
     public void setCount(int count) {
         this.count = count;
     }
+
 
 }

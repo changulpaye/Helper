@@ -1,6 +1,7 @@
 package com.parm.helper.ui.product;
 
 import com.parm.helper.model.Output;
+import com.parm.helper.model.ProductCount;
 import com.parm.helper.model.ProductResponse;
 import com.parm.helper.model.Response;
 
@@ -19,5 +20,7 @@ public class ProductContract {
         Observable<List<ProductResponse>> getProducts();
 
         Observable<Response> setCount(Output output);
+
+        Observable<Response> sendCategoryCount(ProductCount productCount);
     }
 }

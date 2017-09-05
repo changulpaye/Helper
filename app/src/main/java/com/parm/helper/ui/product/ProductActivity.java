@@ -6,6 +6,7 @@ import android.os.Bundle;
 import com.parm.helper.MainApplication;
 import com.parm.helper.R;
 import com.parm.helper.model.Output;
+import com.parm.helper.model.ProductCount;
 import com.parm.helper.model.ProductResponse;
 import com.parm.helper.model.Response;
 import com.parm.helper.service.ApiClient;
@@ -40,5 +41,10 @@ public class ProductActivity extends AppCompatActivity implements ProductContrac
     @Override
     public Observable<Response> setCount(Output output) {
         return apiClient.setProductCounts(output);
+    }
+
+    @Override
+    public Observable<Response> sendCategoryCount(ProductCount productCount) {
+        return apiClient.sendCategoryCount(productCount);
     }
 }
