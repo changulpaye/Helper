@@ -39,7 +39,8 @@ public class SignUpActivity extends BaseActivity implements SignUpInterface {
     }
 
     @Override
-    public Observable<SignupResponse> getSignupResponse() {
+    public Observable<SignupResponse> getSignUpResponse() {
         return apiClient.signUpUser();
     }
+
 }

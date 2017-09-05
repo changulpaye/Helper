@@ -1,9 +1,15 @@
 package com.parm.helper.ui.base;
 
+import android.provider.SyncStateContract;
+import android.util.Log;
+
+import com.parm.helper.utils.Constants;
+
 import rx.Observable;
 import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 

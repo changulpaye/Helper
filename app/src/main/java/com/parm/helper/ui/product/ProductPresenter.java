@@ -9,9 +9,9 @@ import com.parm.helper.ui.base.BasePresenter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import rx.Observer;
 
@@ -29,7 +29,7 @@ public class ProductPresenter extends BasePresenter {
         this.view = view;
     }
 
-    public void loadProducts() {
+    void loadProducts() {
 
         unSubscribeAll();
         subscribe(view.getProducts(), listObserver);
@@ -37,7 +37,7 @@ public class ProductPresenter extends BasePresenter {
     }
 
 
-    Observer<List<ProductResponse>> listObserver = new Observer<List<ProductResponse>>() {
+    private Observer<List<ProductResponse>> listObserver = new Observer<List<ProductResponse>>() {
         @Override
         public void onCompleted() {
 
@@ -55,44 +55,9 @@ public class ProductPresenter extends BasePresenter {
             if (productResponses != null && productResponses.size() != 0) {
                 // sendAssignmentOneResult(productResponses);
                 //sendAssignmentTwoResult(productResponses);
-                sendAssignmentThreeResult(productResponses);
+                // sendAssignmentThreeResult(productResponses);
+                sendAssignmentFourResult(productResponses);
             }
-        }
-    };
-
-    private void sendAssignmentThreeResult(List<ProductResponse> productResponses) {
-        List<ProductResponse> activeProducts = getActiveProducts(productResponses);
-        Map<String, Integer> map = new HashMap<>();
-        for (ProductResponse response: activeProducts) {
-            String  key = response.getCategory();
-            if(map.containsKey(key)) {
-                map.put(key, map.get(key) + 1);
-            } else {
-                map.put(key, 1);
-            }
-        }
-
-        ProductCount productCount = new ProductCount();
-        productCount.setCategoryCount(map);
-        unSubscribeAll();
-        subscribe(view.sendCategoryCount(productCount), countObserver);
-    }
-
-    private Observer<Response> countObserver = new Observer<Response>() {
-        @Override
-        public void onCompleted() {
-
-        }
-
-        @Override
-        public void onError(Throwable e) {
-            e.printStackTrace();
-            System.out.println(e.getMessage());
-        }
-
-        @Override
-        public void onNext(Response response) {
-            System.out.println(response.getMessage());
         }
     };
 
@@ -113,6 +78,54 @@ public class ProductPresenter extends BasePresenter {
 
     }
 
+    private void sendAssignmentThreeResult(List<ProductResponse> productResponses) {
+        List<ProductResponse> activeProducts = getActiveProducts(productResponses);
+        Map<String, Integer> map = new TreeMap<String, Integer>();
+        for (ProductResponse response : activeProducts) {
+            String key = response.getCategory();
+            if (map.containsKey(key)) {
+                map.put(key, map.get(key) + 1);
+            } else {
+                map.put(key, 1);
+            }
+        }
+
+        ProductCount productCount = new ProductCount();
+        productCount.setCategoryCount(map);
+        unSubscribeAll();
+        subscribe(view.sendCategoryCount(productCount), countObserver);
+    }
+
+    private void sendAssignmentFourResult(List<ProductResponse> productResponses) {
+        long sum = 0;
+        List<ProductResponse> productResponse = getActiveProducts(productResponses);
+        for (ProductResponse product : productResponse) {
+            sum = sum + product.getPrice();
+        }
+        Output output = new Output();
+        output.setTotalValue(sum);
+        unSubscribeAll();
+        subscribe(view.sendProductTotalValue(output), countObserver);
+
+    }
+
+    private Observer<Response> countObserver = new Observer<Response>() {
+        @Override
+        public void onCompleted() {
+
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
+
+        @Override
+        public void onNext(Response response) {
+            System.out.println(response.getMessage());
+        }
+    };
 
     private List<ProductResponse> getActiveProducts(List<ProductResponse> productResponses) {
 
@@ -123,17 +136,14 @@ public class ProductPresenter extends BasePresenter {
             Date startDate = productResponse.getStartDate();
             Date endDate = productResponse.getEndDate();
 
-            if (startDate.compareTo(currentDate) >= 0) {
-                if (endDate == null || endDate.compareTo(currentDate) <= 0) {
+            if (startDate.compareTo(currentDate) <= 0) {
+
+                if (endDate == null || endDate.compareTo(currentDate) >= 0) {
                     tempProducts.add(productResponse);
                 }
             }
         }
         return tempProducts;
-    }
-
-    private Date convertDate(String startDate) {
-        return new Date();
     }
 
     private Date getCurrentDate() {

@@ -6,16 +6,15 @@ import com.parm.helper.ui.base.MvpInterface;
 import rx.Observable;
 
 /**
- * Created by pchangul on 7/22/2016.
+ * Provide communication channel between View and Presenter.
  */
 public interface SignUpInterface extends MvpInterface {
-
 
     void onCompleted();
 
     void onError(String message);
 
-    void onSignUp(SignupResponse signupResponse);
+    void onSignUp(SignupResponse signUpResponse);
 
-    Observable<SignupResponse> getSignupResponse();
+    Observable<SignupResponse> getSignUpResponse();
 }

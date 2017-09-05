@@ -47,4 +47,9 @@ public class ProductActivity extends AppCompatActivity implements ProductContrac
     public Observable<Response> sendCategoryCount(ProductCount productCount) {
         return apiClient.sendCategoryCount(productCount);
     }
+
+    @Override
+    public Observable<Response> sendProductTotalValue(Output output) {
+        return apiClient.sendProductTotalValue(output);
+    }
 }

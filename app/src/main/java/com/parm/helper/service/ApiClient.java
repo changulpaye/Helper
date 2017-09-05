@@ -5,6 +5,7 @@ import com.parm.helper.model.Output;
 import com.parm.helper.model.ProductCount;
 import com.parm.helper.model.ProductResponse;
 import com.parm.helper.model.Response;
+import com.parm.helper.model.SignUpRequest;
 import com.parm.helper.model.SignupResponse;
 
 import java.util.List;
@@ -28,6 +29,8 @@ public interface ApiClient {
     @GET("/feeds/login.json")
     Observable<List<ApiResponse>> authenticateUser();
 
+    @POST("register")
+    Observable<SignupResponse> signUpUser(@Body SignUpRequest signUpRequest);
     @GET("/feeds/signup.json")
     Observable<SignupResponse> signUpUser();
 
@@ -43,4 +46,8 @@ public interface ApiClient {
     @Headers("userId:B1tI-l_tb")
     @POST("/challenge/output")
     Observable<Response> sendCategoryCount(@Body ProductCount productCount);
+
+    @Headers("userId:B1tI-l_tb")
+    @POST("/challenge/output")
+    Observable<Response> sendProductTotalValue(@Body Output output);
 }

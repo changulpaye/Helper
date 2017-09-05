@@ -7,16 +7,26 @@ public class Output {
 
     @SerializedName("count")
     @Expose
-    private int count;
+    private Integer count;
 
+    @SerializedName("totalValue")
+    @Expose
+    private Long totalValue;
 
-    public int getCount() {
+    public Integer getCount() {
         return count;
     }
 
-    public void setCount(int count) {
+    public void setCount(Integer count) {
         this.count = count;
     }
 
 
+    public Long getTotalValue() {
+        return totalValue;
+    }
+
+    public void setTotalValue(Long totalValue) {
+        this.totalValue = totalValue;
+    }
 }

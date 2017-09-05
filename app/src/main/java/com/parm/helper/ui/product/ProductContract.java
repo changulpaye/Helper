@@ -22,5 +22,7 @@ public class ProductContract {
         Observable<Response> setCount(Output output);
 
         Observable<Response> sendCategoryCount(ProductCount productCount);
+
+        Observable<Response> sendProductTotalValue(Output output);
     }
 }

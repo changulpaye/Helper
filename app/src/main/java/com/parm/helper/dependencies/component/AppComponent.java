@@ -5,6 +5,7 @@ import com.parm.helper.dependencies.module.AppModule;
 import com.parm.helper.dependencies.module.StorageModule;
 import com.parm.helper.dependencies.scope.CustomScope;
 import com.parm.helper.ui.product.ProductActivity;
+import com.parm.helper.ui.signup.SignUpActivity;
 
 import dagger.Component;
 
@@ -16,4 +17,5 @@ import dagger.Component;
 public interface AppComponent {
     void inject(LoginActivity loginActivity);
     void inject(ProductActivity productActivity);
+    void inject(SignUpActivity signUpActivity);
 }
