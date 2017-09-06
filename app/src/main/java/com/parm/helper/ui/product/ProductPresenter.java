@@ -102,7 +102,7 @@ class ProductPresenter extends BasePresenter {
         subscribe(view.sendCategoryCount(productCount), countObserver);
     }
 
-    private void sendAssignmentFourResult(List<ProductResponse> productResponses) {
+    public void sendAssignmentFourResult(List<ProductResponse> productResponses) {
         long sum = 0;
         List<ProductResponse> productResponse = getActiveProducts(productResponses);
         for (ProductResponse product : productResponse) {
