@@ -1,5 +1,7 @@
 package com.parm.helper.ui.product;
 
+import android.support.annotation.StringRes;
+
 import com.parm.helper.model.Output;
 import com.parm.helper.model.ProductCount;
 import com.parm.helper.model.ProductResponse;
@@ -24,5 +26,7 @@ public class ProductContract {
         Observable<Response> sendCategoryCount(ProductCount productCount);
 
         Observable<Response> sendProductTotalValue(Output output);
+
+        void showError(@StringRes int stringId);
     }
 }

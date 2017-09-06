@@ -1,5 +1,6 @@
 package com.parm.helper.ui.product;
 
+import com.parm.helper.R;
 import com.parm.helper.model.Output;
 import com.parm.helper.model.ProductCount;
 import com.parm.helper.model.ProductResponse;
@@ -18,13 +19,14 @@ import rx.Observer;
 
 /**
  * Created by sashahan on 9/4/2017.
+ *
  */
 
-public class ProductPresenter extends BasePresenter {
+class ProductPresenter extends BasePresenter {
 
     private final ProductContract.View view;
 
-    public ProductPresenter(ProductContract.View view) {
+    ProductPresenter(ProductContract.View view) {
 
         this.view = view;
     }
@@ -52,14 +54,18 @@ public class ProductPresenter extends BasePresenter {
         @Override
         public void onNext(List<ProductResponse> productResponses) {
 
-            if (productResponses != null && productResponses.size() != 0) {
-                // sendAssignmentOneResult(productResponses);
-                //sendAssignmentTwoResult(productResponses);
-                // sendAssignmentThreeResult(productResponses);
-                sendAssignmentFourResult(productResponses);
+            if (productResponses == null || productResponses.size() == 0) {
+               view.showError(R.string.empty_product_response);
+                return;
             }
+
+            //sendAssignmentOneResult(productResponses);
+            //sendAssignmentTwoResult(productResponses);
+            //sendAssignmentThreeResult(productResponses);
+            sendAssignmentFourResult(productResponses);
         }
     };
+
 
 
     private void sendAssignmentOneResult(List<ProductResponse> productResponses) {
