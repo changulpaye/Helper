@@ -4,6 +4,7 @@ import android.app.Application;
 import android.bluetooth.BluetoothManager;
 import android.content.Context;
 import android.location.LocationManager;
+import android.os.Build;
 
 import com.parm.helper.dependencies.scope.CustomScope;
 import com.parm.helper.service.ApiClient;
@@ -56,12 +57,9 @@ public class AppModule {
     @Provides
     @CustomScope
     public BluetoothManager provideBlueToothManager(Application application) {
-        return (BluetoothManager) application.getSystemService(Context.BLUETOOTH_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            return (BluetoothManager) application.getSystemService(Context.BLUETOOTH_SERVICE);
+        }
+        return null;
     }
-
-
-
-
-
-
 }

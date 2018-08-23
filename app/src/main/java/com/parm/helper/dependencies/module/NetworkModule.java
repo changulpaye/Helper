@@ -61,12 +61,11 @@ public class NetworkModule {
     @Singleton
     Retrofit provideRetrofit(Gson gson, OkHttpClient okHttpClient,
                              RxJavaCallAdapterFactory rxJavaCallAdapterFactory) {
-        Retrofit retrofit = new Retrofit.Builder()
+        return new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .baseUrl(Constants.BASE_URL)
                 .addCallAdapterFactory(rxJavaCallAdapterFactory)
                 .client(okHttpClient)
                 .build();
-        return retrofit;
     }
 }
